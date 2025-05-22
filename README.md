@@ -10,6 +10,9 @@
 <hr>
 
 ### 필요한 이론 공부
+* enum
+* copilot
+
 
 <hr>
 
