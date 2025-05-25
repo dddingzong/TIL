@@ -13,6 +13,7 @@
 * enum
 * copilot
 * DevOps
+* 동기 / 비동기 & blocking / non-blocking 
 
 
 <hr>
