@@ -9,11 +9,13 @@
 
 <hr>
 
-### 필요한 이론 공부
+### 진행한 이론 공부
 * enum
 * copilot
 * DevOps
 * 동기 / 비동기 & blocking / non-blocking 
+* mock 객체
+
 
 
 <hr>
