@@ -16,6 +16,7 @@
 * 동기 / 비동기 & blocking / non-blocking 
 * mock 객체
 * Spring Framework
+* IoC (Inversion of Control)
 
 
 
