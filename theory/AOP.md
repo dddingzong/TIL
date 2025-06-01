@@ -57,6 +57,130 @@
 
 ### AOP 예시
 
+#### 1. 로깅
+```java
+@Aspect
+@Component
+public class LoggingAspect {
+
+    @Before("execution(* com.example..*Service.*(..))")
+    public void logBefore(JoinPoint joinPoint) {
+        log.info("메서드 시작: {}", joinPoint.getSignature());
+    }
+
+    @AfterReturning(pointcut = "execution(* com.example..*Service.*(..))", returning = "result")
+    public void logAfterReturning(JoinPoint joinPoint, Object result) {
+        log.info("메서드 종료: {}, 반환값: {}", joinPoint.getSignature(), result);
+    }
+}
+
+```
+
+#### 2. 트랜잭션 관리
+```java
+@Service
+public class OrderService {
+
+    @Transactional
+    public void placeOrder(OrderRequest request) {
+        orderRepository.save(request.toOrder());
+        paymentService.charge(request.getPaymentInfo());
+    }
+}
+```
+
+#### 3. 보안 검사
+```java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface AdminOnly {}
+```
+```java
+@Aspect
+@Component
+public class SecurityAspect {
+
+    @Before("@annotation(com.example.annotation.AdminOnly)")
+    public void checkAdmin() {
+        if (!UserContextHolder.getCurrentUser().isAdmin()) {
+            throw new AccessDeniedException("관리자 권한이 필요합니다.");
+        }
+    }
+}
+
+```
+```java
+@AdminOnly
+public void deleteUser(Long userId) {
+    userRepository.deleteById(userId);
+}
+
+```
+
+#### 4. 캐싱
+```java
+@Aspect
+@Component
+@RequiredArgsConstructor
+public class CacheAspect {
+
+    private final Map<String, Object> cache = new ConcurrentHashMap<>();
+
+    @Around("execution(* com.example.service.ProductService.getProduct(..))")
+    public Object applyCache(ProceedingJoinPoint pjp) throws Throwable {
+        String key = Arrays.toString(pjp.getArgs());
+
+        if (cache.containsKey(key)) {
+            log.info("캐시에서 데이터 반환: {}", key);
+            return cache.get(key);
+        }
+
+        Object result = pjp.proceed();
+        cache.put(key, result);
+        return result;
+    }
+}
+
+```
+
+#### 5. 예외 처리
+```java
+@Aspect
+@Component
+public class ExceptionAspect {
+
+    @AfterThrowing(pointcut = "execution(* com.example..*Service.*(..))", throwing = "ex")
+    public void handleException(JoinPoint jp, Throwable ex) {
+        log.error("예외 발생: {} - {}", jp.getSignature(), ex.getMessage());
+        // 필요시 알림 전송, 에러 로그 DB 저장 등
+    }
+}
+
+```
+
+#### 6. 성능 모니터링
+```java
+@Aspect
+@Component
+public class PerformanceAspect {
+
+    @Around("execution(* com.example..*Service.*(..))")
+    public Object measureExecutionTime(ProceedingJoinPoint pjp) throws Throwable {
+        long start = System.currentTimeMillis();
+        Object result = pjp.proceed();
+        long end = System.currentTimeMillis();
+        log.info("실행 시간 [{}]: {}ms", pjp.getSignature(), (end - start));
+        return result;
+    }
+}
+```
+
+
+
+
+
+
+
 
 
 
