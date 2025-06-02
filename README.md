@@ -17,7 +17,8 @@
 * mock 객체
 * Spring Framework
 * IoC (Inversion of Control)
-
+* DI (Dependency Injection)
+* AOP (Aspect Oriented Programming)
 
 
 <hr>
