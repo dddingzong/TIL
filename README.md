@@ -19,6 +19,8 @@
 * IoC (Inversion of Control)
 * DI (Dependency Injection)
 * AOP (Aspect Oriented Programming)
+* POJO (Plain Old Java Object)
+* TDD
 
 
 <hr>
