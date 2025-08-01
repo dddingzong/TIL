@@ -21,12 +21,13 @@
 * AOP (Aspect Oriented Programming)
 * POJO (Plain Old Java Object)
 * TDD
+* Builder
 
 
 <hr>
 
-### 무작정 코드리뷰
+### 무작정 코드리뷰 (오픈 소스를 통하여 공부하기)
 
 <hr>
 
-### 알고리즘
+### 알고리즘 (백준 or 프로그래머스 알고리즘 문제 풀이)
