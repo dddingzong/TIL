@@ -22,6 +22,7 @@
 * POJO (Plain Old Java Object)
 * TDD
 * Builder
+* ControllerAdvice
 
 
 <hr>
