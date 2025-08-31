@@ -8,7 +8,6 @@
 
 * IP 헤더의 ToS(Type of Service) 필드 내 6비트를 사용하여 패킷의 처리 우선순위를 정의한다.
 * 네트워크 혼잡 상황에서 중요한 트래픽을 우선적으로 전송할 수 있게 해주는 기술이다.
-* RFC 2474에서 정의된 표준으로, DiffServ(Differentiated Services) 아키텍처의 핵심 구성 요소다.
 
 <hr>
 
