@@ -260,3 +260,79 @@ public class PostEndpoint implements CustomEndpoint {
 
 <hr>
 
+### 실제 Halo의 특별한 아키텍처 패턴들
+
+#### 1. Content Versioning System (Snapshot 기반)
+실제 Halo는 게시글의 모든 변경사항을 **Snapshot**으로 관리합니다.
+
+```java
+public class ContentSnapshot {
+    private String name;           // 스냅샷 식별자
+    private String rawContent;     // 원본 컨텐츠
+    private String renderedContent; // 렌더링된 컨텐츠
+    private Instant createTime;    // 생성 시간
+}
+```
+
+#### 2. Extension System (Kubernetes-style)
+Halo는 모든 리소스를 **Extension**으로 관리합니다.
+
+```java
+@GVK(group = "content.halo.run", version = "v1alpha1", kind = "Post")
+public class Post extends AbstractExtension {
+    // Kubernetes처럼 group/version/kind로 리소스 식별
+}
+```
+
+#### 3. Reactive Extension Client
+전통적인 Repository 대신 **ReactiveExtensionClient**를 사용합니다.
+
+```java
+// JPA Repository 대신
+client.create(post)          // 새로운 Extension 생성
+client.update(post)          // Extension 업데이트  
+client.get(Post.class, name) // 이름으로 조회
+client.list(Post.class, ...)  // 조건부 목록 조회
+```
+
+<hr>
+
+### 결론 및 핵심 학습 포인트
+
+실제 Halo 오픈소스 코드를 분석하면서 **전통적인 Spring MVC와는 완전히 다른 아키텍처 패턴**을 발견할 수 있었습니다.
+
+#### 🚀 핵심 차별화 요소들
+
+1. **반응형 프로그래밍**: 
+   - 전체 시스템이 Spring WebFlux 기반
+   - `Mono<T>`, `Flux<T>`를 통한 비동기 처리
+   - 높은 성능과 확장성 확보
+
+2. **Extension 시스템**:
+   - Kubernetes-style 리소스 관리
+   - `@GVK` 애노테이션으로 리소스 식별
+   - Spec-Status 패턴으로 상태 관리
+
+3. **함수형 Endpoint**:
+   - `@RestController` 대신 `RouterFunction` 사용
+   - 선언적이고 조합 가능한 라우팅
+   - 자동 OpenAPI 문서 생성
+
+4. **Content Versioning**:
+   - Snapshot 기반 버전 관리
+   - 모든 편집 히스토리 보존
+   - Head vs Release 분리
+
+#### 실무 적용 인사이트
+
+- **레이어드 아키텍처의 한계**: 전통적인 Controller-Service-Repository 패턴이 아닌, 더 유연한 Extension 기반 설계
+- **반응형의 실제 활용**: 단순한 성능 향상이 아닌, 아키텍처 전반의 패러다임 변화
+- **함수형 프로그래밍**: 선언적이고 조합 가능한 코드 구성
+
+### 결론
+
+이번 TIL은 AI의 도움을 많이 받았습니다. 도저히 어디서부터 손대야할지 모르겠어서요;;
+
+그래도 많이 공부할 수 있었고 실무에서 사용하는 기술은 대부분 제가 모르는 기술이군요...
+
+제가 얼마나 무지한지 알 수 있었습니다. 더 열심히 공부하도록 하겠습니다.
