@@ -1,10 +1,10 @@
-### DAY1 (Community Edition - Introduction)
+## DAY1 (Community Edition - Introduction)
 
 ### 1. 90 Days of DevOps 2024 Community Edition 소개
 
 **1-1. 2022 강의에 대한 소개**
 
-![img.png](../../image/devOps/2022OverView.png)
+![img.png](../../image/devOps/day1/2022OverView.png)
 
 - **DevOps의 이해**: DevOps가 무엇이며 왜 사용해야 하는지에 대한 기초 학습
 - **프로그래밍 언어 학습**: Go 언어를 중심으로 학습
@@ -25,7 +25,7 @@
 
 ### 2. 2023년 Edition에서 추가된 내용
 
-![img.png](../../image/devOps/2023OverView.png)
+![img.png](../../image/devOps/day1/2023OverView.png)
 
 ### 3. 2024 Edition
 
