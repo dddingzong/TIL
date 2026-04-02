@@ -1,5 +1,4 @@
 
-
 import java.util.*;
 import java.io.*;
 
@@ -24,7 +23,6 @@ public class Main {
     	visited = new boolean[n][m];
 
     	que = new LinkedList<>();
-    	int result = 0;
     	
     	for (int i=0;i<n;i++) {
     		String[] line = bf.readLine().split("");
@@ -49,8 +47,6 @@ public class Main {
         		int nx = x + dx[i];
         		int ny = y + dy[i];
         		if (nx >= 0 && ny >= 0 && nx < n && ny < m && arr[nx][ny] == 1) {
-        			if (visited[nx][ny] == true) continue;
-        			visited[nx][ny] = true;
         			que.add(new int[] {nx,ny});
         			arr[nx][ny] = arr[x][y] + 1;
         		}
