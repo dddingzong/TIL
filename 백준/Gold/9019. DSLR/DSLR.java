@@ -8,114 +8,100 @@ public class Main {
 	static int n;
 	static int[][] arr;
 	static String[] result;
-	static String[] dx = new String[] {"D", "S", "L","R"};
-	static Queue<String[]> que;
+	static Queue<Integer> que;
 	static boolean[] visited;
+	static int[] parent;
+	static char[] command;
 	
     public static void main(String[] args) throws IOException{
     
     	BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
     	
-    	String[] first = bf.readLine().split(" ");
-    	n = Integer.parseInt(first[0]);
+    	n = Integer.parseInt(bf.readLine());
     	arr = new int[n][2];
     	result = new String[n];
 
-    	
-    	for (int i = 0;i<n;i++) {
+    	for (int i = 0; i < n; i++) {
         	String[] line = bf.readLine().split(" ");
     		arr[i][0] = Integer.parseInt(line[0]);
     		arr[i][1] = Integer.parseInt(line[1]);
     	}
     	
-    	for (int i=0;i<n;i++) {
-    		String r = calculate(arr[i][0],arr[i][1]);
-    		result[i] = r;
+    	for (int i = 0; i < n; i++) {
+    		result[i] = calculate(arr[i][0], arr[i][1]);
     	}
     	
-    	
-    	for (int i=0;i<n;i++) {
+    	for (int i = 0; i < n; i++) {
     		System.out.println(result[i]);
     	}
-    	
     }
     
     static String calculate(int input, int output) {
     	visited = new boolean[10000];
-    	String result = "";
+    	parent = new int[10000];
+    	command = new char[10000];
     	
     	que = new LinkedList<>();
-    	que.add(new String[] {Integer.toString(input), ""});
+    	que.add(input);
     	visited[input] = true;
     	
     	while (!que.isEmpty()) {
-    		
-    		String[] temp = que.poll();
-        	int number = Integer.parseInt(temp[0]);
-        	String mem = temp[1];
-        	
+    		int number = que.poll();
         	
         	if (number == output) {
-        		return mem;
+        		break;
         	}
     		
-        	for (int i=0;i<4;i++) {
-        		
-        		if (dx[i].equals("D")) {
-        			int transNum = D(number);
-        			if (visited[transNum] == true) continue;
-        			que.add(new String[]{Integer.toString(transNum), mem + "D"});
-        			visited[transNum] = true;
-        		} else if (dx[i].equals("S")) {
-        			int transNum = S(number);
-        			if (visited[transNum] == true) continue;
-        			que.add(new String[]{Integer.toString(transNum), mem + "S"});
-        			visited[transNum] = true;
-        		} else if (dx[i].equals("L")) {
-        			int transNum = L(number);
-        			if (visited[transNum] == true) continue;
-        			que.add(new String[]{Integer.toString(transNum), mem + "L"});
-        			visited[transNum] = true;
-        		} else {
-        			int transNum = R(number);
-        			if (visited[transNum] == true) continue;
-        			que.add(new String[]{Integer.toString(transNum), mem + "R"});
-        			visited[transNum] = true;
-        		}
-        		
+        	int d = D(number);
+        	if (!visited[d]) {
+        		visited[d] = true;
+        		parent[d] = number;
+        		command[d] = 'D';
+        		que.add(d);
         	}
         	
+        	int s = S(number);
+        	if (!visited[s]) {
+        		visited[s] = true;
+        		parent[s] = number;
+        		command[s] = 'S';
+        		que.add(s);
+        	}
+        	
+        	int l = L(number);
+        	if (!visited[l]) {
+        		visited[l] = true;
+        		parent[l] = number;
+        		command[l] = 'L';
+        		que.add(l);
+        	}
+        	
+        	int r = R(number);
+        	if (!visited[r]) {
+        		visited[r] = true;
+        		parent[r] = number;
+        		command[r] = 'R';
+        		que.add(r);
+        	}
     	}
     	
-    	System.out.println("result = " + result);
-
-    	return result;
+    	StringBuilder sb = new StringBuilder();
+    	int cur = output;
+    	
+    	while (cur != input) {
+    		sb.append(command[cur]);
+    		cur = parent[cur];
+    	}
+    	
+    	return sb.reverse().toString();
     }
     	
-    
-    
     static int D(int input) {
-    	int result = 0;
-    	
-    	if (input*2 > 9999) {
-    		result = (input*2) % 10000;	
-    	} else {
-    		result = input*2;
-    	}
-    	
-    	return result;
+    	return (input * 2) % 10000;
     }
 
     static int S(int input) {
-    	int result = 0;
-    	
-    	if (input==0) {
-    		result = 9999;
-    	} else {
-    		result = input -1;
-    	}
-    	
-    	return result;
+    	return (input == 0) ? 9999 : input - 1;
     }
     
     static int L(int input) {
@@ -125,14 +111,4 @@ public class Main {
     static int R(int input) {
         return (input % 10) * 1000 + input / 10;
     }
-    
-    
 }
-
-
-
-
-
-
-
-
