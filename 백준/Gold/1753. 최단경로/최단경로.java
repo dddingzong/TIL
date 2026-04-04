@@ -1,53 +1,82 @@
 
-import java.util.*;
+
 import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        
-        int V = Integer.parseInt(st.nextToken());
-        int E = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(br.readLine().trim());
+	
+	static int v, e, k;
+	static List<List<int[]>> graph;
+	static PriorityQueue<int[]> que;
+	static int[] dist;
+	static final int INF = Integer.MAX_VALUE;
 
-        List<List<int[]>> graph = new ArrayList<>();
-        for (int i = 0; i <= V; i++) graph.add(new ArrayList<>());
+	public static void main(String[] args) throws IOException{
 
-        for (int i = 0; i < E; i++) {
-            st = new StringTokenizer(br.readLine());
-            int u = Integer.parseInt(st.nextToken());
-            int v = Integer.parseInt(st.nextToken());
-            int w = Integer.parseInt(st.nextToken());
-            graph.get(u).add(new int[]{v, w});
-        }
+		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+		
+		String[] first = bf.readLine().split(" ");
+		v = Integer.parseInt(first[0]);
+		e = Integer.parseInt(first[1]);
+		
+		
+		String[] second = bf.readLine().split(" ");
+		k = Integer.parseInt(second[0])-1;
+		
+		graph = new ArrayList<>();
+		for (int i = 0; i < v; i++) {
+			graph.add(new ArrayList<>());
+		}
+		
+		for (int i = 0; i < e; i++) {
+			String[] line = bf.readLine().split(" ");
+			int startNode = Integer.parseInt(line[0]) - 1;
+			int endNode = Integer.parseInt(line[1]) - 1;
+			int weight = Integer.parseInt(line[2]);
+			
+			graph.get(startNode).add(new int[] {endNode, weight});
+		}
+		
+		
+		dijkstra();
+		
+		for (int i = 0; i < v; i++) {
+			if (dist[i] == INF) {
+				System.out.println("INF");
+			} else {
+				System.out.println(dist[i]);
+			}
+		}
+	}
+	
 
-        int[] dist = new int[V + 1];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-        dist[K] = 0;
+	static void dijkstra() {	
+		dist = new int[v];
+		Arrays.fill(dist, INF);
+		dist[k] = 0; 
+		
+		que = new PriorityQueue<>((a, b) -> a[1] - b[1]);
+		que.add(new int[] {k, 0});
 
- 
-        PriorityQueue<int[]> que = new PriorityQueue<>((a, b) -> a[0] - b[0]);
-        que.offer(new int[]{0, K});
-
-        while (!que.isEmpty()) {
-            int[] cur = que.poll();
-            int cost = cur[0], u = cur[1];
-            if (cost > dist[u]) continue;
-
-            for (int[] e : graph.get(u)) {
-                int v = e[0], w = e[1];
-                if (dist[u] + w < dist[v]) {
-                    dist[v] = dist[u] + w;
-                    que.offer(new int[]{dist[v], v});
-                }
-            }
-        }
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 1; i <= V; i++) {
-            sb.append(dist[i] == Integer.MAX_VALUE ? "INF" : dist[i]).append('\n');
-        }
-        System.out.print(sb);
-    }
+		while(!que.isEmpty()) {
+			int[] tmp = que.poll();
+			int number = tmp[0];
+			int sum = tmp[1];
+			
+			if (sum > dist[number]) continue;
+			
+			for (int[] nextInfo : graph.get(number)) {
+				int next = nextInfo[0];
+				int weight = nextInfo[1];
+				int nextCost = sum + weight;
+				
+				if (dist[next] > nextCost) {
+					dist[next] = nextCost;
+					que.add(new int[] {next, nextCost});
+				}
+			}
+			
+		}
+	
+	}
 }
