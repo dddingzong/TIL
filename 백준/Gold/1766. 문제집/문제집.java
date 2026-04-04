@@ -1,5 +1,4 @@
 
-
 import java.io.*;
 import java.util.*;
 
@@ -35,6 +34,10 @@ public class Main {
 			int postNode = Integer.parseInt(line[1])-1;
 			arr.get(priNode).add(postNode);
 			son[postNode]++;
+		}
+		
+		for (int i=0;i<n;i++) {
+			Collections.sort(arr.get(i),(a,b) -> a-b);
 		}
 		
 		pq = new PriorityQueue<Integer>((a,b) -> a-b);
