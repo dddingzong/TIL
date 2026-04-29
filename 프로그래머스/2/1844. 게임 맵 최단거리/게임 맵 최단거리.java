@@ -1,45 +1,51 @@
 import java.util.*;
 
 class Solution {
+    
+    static int[] dx = new int[]{1,0,-1,0};
+    static int[] dy = new int[]{0,1,0,-1};
+    
     public int solution(int[][] maps) {
         int n = maps.length;
         int m = maps[0].length;
-        int[] dx = new int[]{1,0,-1,0};
-        int[] dy = new int[]{0,1,0,-1};
-
-        boolean[][] visits = new boolean[n][m];
-        Queue<int[]> que = new LinkedList<>(); 
-        que.add(new int[]{0,0,1});
-        int answer = 0;
+        int answer = -1;
         
-        while(!que.isEmpty()) {
-            int[] init = que.poll();
-
-            int x = init[0];
-            int y = init[1];
-            answer = init[2];
+        Queue<int[]> que = new LinkedList<>();
+        boolean[][] visited = new boolean[n][m];
+        
+        que.add(new int[]{0,0,1});
+        visited[0][0] = true;
+        
+        while (!que.isEmpty()){
+            int[] cur = que.poll();
             
-            if (x==n-1&&y==m-1) {
-                return answer;
+            int x = cur[0];
+            int y = cur[1];
+            int cnt = cur[2];
+            
+                        
+            if (x == n-1 && y == m -1) {
+                answer = cnt;
+                break;
             }
             
             for (int i=0;i<4;i++) {
-                int nx = x+dx[i];
-                int ny = y+dy[i];
+                int nx = x + dx[i];
+                int ny = y + dy[i];
                 
-                if (nx >= 0 &&
-                    ny >= 0 &&
-                    nx < n &&
-                    ny < m && 
-                    visits[nx][ny] == false && 
-                    maps[nx][ny] == 1 ) 
-                {
-                    visits[nx][ny] = true;
-                    que.add(new int[]{nx,ny,answer+1});
+                if (nx >= 0 && ny >= 0 && nx < n && ny < m) {
+                    if (maps[nx][ny] == 0 || visited[nx][ny] == true) continue;
+                    que.add(new int[]{nx,ny,cnt+1});
+                    visited[nx][ny] = true;
+                    
                 }
-            } 
+                
+            }
+            
+            
         }
-
-        return -1;
+        
+        
+        return answer;
     }
 }
