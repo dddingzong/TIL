@@ -6,44 +6,71 @@ class Solution {
         
         Set<Integer> lostSet = new HashSet<>();
         Set<Integer> reserveSet = new HashSet<>();
-
         
-        for (int number : lost) {
-            lostSet.add(number);
+        for (int num : lost) {
+            lostSet.add(num);
         }
         
-        for (int number : reserve) {
-            reserveSet.add(number);
+        for (int num : reserve) {
+            reserveSet.add(num);
         }
         
-        for (int number : lost) {
-            if (reserveSet.contains(number)) {
-                lostSet.remove(number);
-                reserveSet.remove(number);
+        Set<Integer> bothSet =  new HashSet<>();
+        
+        for (int num : reserveSet) {
+            if (lostSet.contains(num)) {
+                bothSet.add(num);
             }
         }
         
+        for (int num : bothSet) {
+            lostSet.remove(num);
+            reserveSet.remove(num);
+        }
+        
+       
+    
+        int[] arr = new int[n];
+        
+        // 0 잃어버린 사람, 1 해당 X, 2 여분
+        for (int i=0;i<n;i++) {
+            if (lostSet.contains(i+1)) {
+                arr[i] = 0;
+            } else if (reserveSet.contains(i+1)) {
+                arr[i] = 2;
+                answer++;
+            } else {
+                arr[i] = 1;
+                answer++;
                 
-        List<Integer> lostList = new ArrayList<>(lostSet);
-        List<Integer> reserveList = new ArrayList<>(reserveSet);
-        
-        Collections.sort(reserveList, (a,b) -> Integer.compare(a,b));
-
-        
-        answer = n - lostSet.size();
-        for (int i=0; i < reserveList.size(); i++) {
-            
-            int cur = reserveList.get(i);
-            
-            if (lostSet.contains(cur-1)) {
-                lostSet.remove(cur-1);
-                answer++;
-            } else if (lostSet.contains(cur+1)) {
-                lostSet.remove(cur+1);
-                answer++;
             }
-            
         }
+        
+        // for (int i=0;i<max;i++) {
+        //     System.out.print(arr[i] + ", ");
+        // }
+        
+        for (int i=0;i<n;i++) {
+            if (arr[i] == 1 | arr[i] == 2) continue;
+            
+            if (i > 0 && arr[i-1] == 2) {
+                answer++;
+                arr[i] = 1;
+                arr[i-1] = 1;
+            } else if (i < n-1 && arr[i+1] == 2) {
+                answer++;
+                arr[i] = 1;
+                arr[i+1] = 1;
+            } 
+            
+            
+            
+            // for (int k=0;k<max;k++) {
+            //     System.out.print(arr[k] + ", ");
+            // }
+            // System.out.println();
+        }
+        
         
         return answer;
     }
