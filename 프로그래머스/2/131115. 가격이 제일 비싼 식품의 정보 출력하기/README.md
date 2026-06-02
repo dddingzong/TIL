@@ -1,10 +1,10 @@
 # [level 2] 가격이 제일 비싼 식품의 정보 출력하기 - 131115 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/131115) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/131115?utm_source=chatgpt.com) 
 
 ### 성능 요약
 
-메모리: 0.0 MB, 시간: 0.00 ms
+메모리: undefined, 시간: 
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 04월 08일 18:58:02
+2026년 06월 03일 00:47:18
 
 ### 문제 설명
 
